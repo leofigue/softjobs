@@ -1,0 +1,26 @@
+-- FUNCTION: public.existe_correo(character varying)
+
+-- DROP FUNCTION IF EXISTS public.existe_correo(character varying);
+
+CREATE OR REPLACE FUNCTION public.existe_correo(
+	revisar_casilla character varying)
+    RETURNS character varying
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+DECLARE existe integer;
+
+BEGIN
+	SELECT COUNT(*) 
+	       INTO existe
+	FROM usuarios
+	WHERE email=revisar_casilla;
+	
+	return existe;
+	
+END;
+$BODY$;
+
+ALTER FUNCTION public.existe_correo(character varying)
+    OWNER TO postgres;
